@@ -25,8 +25,8 @@ export function getHookExtensionToContent(platform: ExtensionPlatform) {
   return content;
 }
 
-export function getHookExtensionToPanel(platform: ExtensionPlatform) {
-  const methodNames = getExportMethodNames("../../panel/exports");
+export function getHookExtensionToPopup(platform: ExtensionPlatform) {
+  const methodNames = getExportMethodNames("../../popup/exports");
   const methodCodes = methodNames.map((key) => {
     return `export async function ${key}(...args:any[]) {
       const response = await browser.runtime.sendMessage(${
@@ -40,12 +40,12 @@ export function getHookExtensionToPanel(platform: ExtensionPlatform) {
   return content;
 }
 
-export function getImplExtensionToPanel() {
+export function getImplExtensionToPopup() {
   return `
   browser.runtime.onMessage.addListener(
     function (request, sender, sendResponse: any) {
       const { method, args } = request;
-      const methodFunc = (panelExports as any)?.[method];
+      const methodFunc = (popupExports as any)?.[method];
       if (!methodFunc && typeof methodFunc != "function") return;
 
       if (!method.startsWith("sync")) {

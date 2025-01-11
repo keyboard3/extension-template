@@ -1,3 +1,4 @@
+import { APP_NAME } from "../../common/const";
 import * as docExports from "../../document/exports";
 import "../../document/inject";
 
@@ -13,9 +14,9 @@ const docListener = async (event: CustomEvent) => {
   if (result == undefined) return;
   const data = { method, id, response: result };
   document.dispatchEvent(
-    new CustomEvent("external-subtitle-content-response", {
+    new CustomEvent(`${APP_NAME}-content-response`, {
       detail: process.env.PLATFORM == "firefox" ? JSON.stringify(data) : data,
     }),
   );
 };
-document.addEventListener("external-subtitle-content", docListener);
+document.addEventListener(`${APP_NAME}-content`, docListener);

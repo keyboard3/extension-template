@@ -5,9 +5,15 @@
   "version": "1.0.0",
   "permissions": [
     "storage",
-    "tabs",
-    "sidePanel"
+    "tabs"
   ],
+  "icons": {
+    "32": "images/icon-32.png",
+    "48": "images/icon-48.png",
+    "64": "images/icon-64.png",
+    "128": "images/icon-128.png",
+    "256": "images/icon-256.png"
+  },
   "content_scripts": [
     {
       "js": [
@@ -20,6 +26,16 @@
       "all_frames": true
     }
   ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "32": "images/icon-32.png",
+      "48": "images/icon-48.png",
+      "64": "images/icon-64.png",
+      "128": "images/icon-128.png",
+      "256": "images/icon-256.png"
+    }
+  },
   "background": {
     "service_worker": "scripts/background.js"
   },
@@ -27,7 +43,7 @@
     {
       "resources": [
         "scripts/inject.js",
-        "css/panel.css",
+        "css/popup.css",
         "css/content.css"
       ],
       "matches": [

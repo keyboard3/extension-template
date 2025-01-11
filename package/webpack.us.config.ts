@@ -2,12 +2,13 @@ import path from "path";
 import rspack from "@rspack/core";
 import { getUserScriptMeta } from "../src/polyfill/userscript/meta";
 import metaData from "../package.json";
+import { APP_NAME } from "../src/common/const";
 
 const isProd = process.env.PROD == "1";
 
 export function getUserScriptConfigs() {
   const contentConfig = userscriptWebpack({
-    "external-subtitle.user": "./src/polyfill/userscript/index.ts",
+    [`${APP_NAME}.user`]: "./src/polyfill/userscript/index.ts",
   });
   return [contentConfig];
 }
@@ -21,7 +22,7 @@ export function getPreCompileUSConfig() {
 }
 function userscriptWebpack(
   entry: Partial<
-    { [key in "float" | "external-subtitle.user" | "inject" | "dash"]: string }
+    { [key in "float" | `${typeof APP_NAME}.user` | "inject" | "dash"]: string }
   >,
   clean = false,
 ): any {

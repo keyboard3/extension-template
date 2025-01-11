@@ -1,4 +1,4 @@
-export const APP_NAME = "template";
+export const APP_NAME = "template" ;
 
 export const StorageKey = {
   storageConfig: "storage_config",

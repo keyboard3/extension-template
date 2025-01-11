@@ -3,26 +3,6 @@ import "../../background";
 import "../../common/init";
 console.log("background 为实现部分准备的前置", !!backExports);
 
-chrome.sidePanel
-  .setPanelBehavior({ openPanelOnActionClick: true })
-  .catch((error) => console.error(error));
-
-// chrome.action.onClicked.addListener(async (tab) => {
-//   (globalThis as any).tabId = tab.id;
-//   //发消息给content
-//   await chrome.tabs.sendMessage(tab.id, { method: "togglePanel" });
-// });
-
-browser.tabs.onUpdated.addListener(async (tabId, info, tab) => {
-  if (!tab.url) return;
-  (globalThis as any).tabId = tabId;
-  await chrome.sidePanel.setOptions({
-    tabId,
-    path: "panel.html",
-    enabled: true,
-  });
-});
-
 browser.runtime.onInstalled.addListener(() => {
   console.log("onInstalled");
 });

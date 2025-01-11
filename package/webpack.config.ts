@@ -5,6 +5,9 @@ import metaData from "../package.json";
 const isProd = process.env.PROD == "1";
 
 export function getExtensionConfigs(platform: "chrome" | "firefox") {
+  const popupConfig = extensionWebpack(platform, {
+    popup: "./src/popup/index.tsx",
+  });
   const contentConfig = extensionWebpack(platform, {
     content: "./src/polyfill/chrome-extension/content.ts",
   });
@@ -21,6 +24,7 @@ export function getExtensionConfigs(platform: "chrome" | "firefox") {
     "video-worker": "./src/dash/pages/video/video-worker.ts",
   });
   return [
+    popupConfig,
     contentConfig,
     backgroundConfig,
     injectConfig,
@@ -35,7 +39,7 @@ function extensionWebpack(
     {
       [
         key in
-          | "panel"
+          | "popup"
           | "content"
           | "background"
           | "inject"

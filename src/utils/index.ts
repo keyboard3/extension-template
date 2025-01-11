@@ -67,29 +67,3 @@ export function parseValue(obj: any, path: string) {
   }
   return current;
 }
-
-export function parseSubtitlesByArrayKeys(
-  caption: any,
-  hookConfig: SubtitleHookConfig,
-) {
-  if (!hookConfig) return null;
-
-  const startArray = caption[hookConfig.startKey || ""];
-  const endArray = caption[hookConfig.endKey || ""];
-  const textArray = caption[hookConfig.textKey || ""];
-
-  const isOk = Array.isArray(startArray) &&
-    startArray.length == endArray.length &&
-    endArray.length == textArray.length;
-  if (!isOk) return null;
-
-  const subtitles: any = [];
-  for (let i = 0; i < textArray.length; i++) {
-    subtitles.push({
-      [hookConfig.startKey!]: startArray[i],
-      [hookConfig.endKey!]: endArray[i],
-      [hookConfig.textKey!]: textArray[i],
-    });
-  }
-  return subtitles;
-}

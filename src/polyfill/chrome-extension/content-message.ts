@@ -1,3 +1,4 @@
+import { APP_NAME } from "../../common/const";
 import { deserialize, getExportMethodNames, serialize } from "./util";
 
 export function getHookContentToBackExports(platform: ExtensionPlatform) {
@@ -21,7 +22,7 @@ export function getHookContentToDocExports(platform: ExtensionPlatform) {
   const methodCodes = methodNames.map((key) => {
     return `export async function ${key}(...args:any[]) {
        const mid = Math.random().toString(36).slice(2);
-       document.dispatchEvent(new CustomEvent("external-subtitle-content", {detail: ${
+       document.dispatchEvent(new CustomEvent("${APP_NAME}-content", {detail: ${
       serialize(platform, `{method: "${key}",id:mid, args}`)
     }}));
        const response = await new Promise((resolve) => {
@@ -30,11 +31,11 @@ export function getHookContentToDocExports(platform: ExtensionPlatform) {
       deserialize(platform, "event.detail")
     } || {};
                 if (method === "${key}" && id == mid) {
-                    document.removeEventListener("external-subtitle-content-response", listener);
+                    document.removeEventListener("${APP_NAME}-content-response", listener);
                     resolve(response);
                 }
             };
-            document.addEventListener("external-subtitle-content-response", listener);
+            document.addEventListener("${APP_NAME}-content-response", listener);
         });
        return response;
       }`;
@@ -49,7 +50,7 @@ export function getImplDocToContentExports(platform: ExtensionPlatform) {
   const methodCodes = methodNames.map((key) => {
     return `if(method === "${key}") {
       const result = await contentExports.${key}.apply(this,args);
-      document.dispatchEvent(new CustomEvent("external-subtitle-doc-response", {detail: ${
+      document.dispatchEvent(new CustomEvent("${APP_NAME}-doc-response", {detail: ${
       serialize(platform, `{method: "${key}", response: result}`)
     }}));
     }`;
@@ -60,7 +61,7 @@ const listener = async (event: CustomEvent) => {
   const {method, args} = ${deserialize(platform, "event.detail")};
   ${methodCodes.join("\n  ")}
 };
-document.addEventListener("external-subtitle-doc", listener);
+document.addEventListener("${APP_NAME}-doc", listener);
   `;
   return content;
 }

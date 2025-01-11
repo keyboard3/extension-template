@@ -13,8 +13,8 @@ import {
 } from "../src/polyfill/chrome-extension/document-message";
 import {
   getHookExtensionToContent,
-  getHookExtensionToPanel,
-  getImplExtensionToPanel,
+  getHookExtensionToPopup,
+  getImplExtensionToPopup,
 } from "../src/polyfill/chrome-extension/extension-message";
 import { APP_NAME } from "../src/common/const";
 
@@ -23,13 +23,13 @@ export default async function (source: string) {
   try {
     const { entry, platform } = this.getOptions();
     if (
-      entry != "panel" &&
-      resourcePath.includes(path.normalize("src/panel/index"))
+      entry != "popup" &&
+      resourcePath.includes(path.normalize("src/popup/index"))
     ) {
       return source.replace("mainRender();", "");
     }
-    if (entry == "panel") {
-      const res = injectPanel.call(this, platform, source);
+    if (entry == "popup") {
+      const res = injectPopup.call(this, platform, source);
       if (res) return res;
     }
     if (platform === "userscript") {
@@ -62,7 +62,7 @@ export default async function (source: string) {
 function injectUserScript(entry: string, source: string) {
   const resourcePath = path.normalize(this.resourcePath);
   if (
-    entry == "external-subtitle.user" &&
+    entry == "template.user" &&
     resourcePath.includes(path.normalize("document/inject.ts"))
   ) {
     //读取dist/userscript/inject.js 然后返回
@@ -84,7 +84,7 @@ function injectUserScript(entry: string, source: string) {
     return getHookDocToContentExports("firefox");
   }
   if (
-    entry == "external-subtitle.user" &&
+    entry == "template.user" &&
     resourcePath.includes(path.normalize("src/polyfill/userscript/index"))
   ) {
     return `${getImplDocToContentExports("firefox")}${source}`;
@@ -132,20 +132,20 @@ function injectBackground(platform: ExtensionPlatform, source: string) {
     const code = getHookExtensionToContent(platform);
     return code;
   }
-  if (resourcePath.includes(path.normalize("src/panel/exports"))) {
-    const code = getHookExtensionToPanel(platform);
+  if (resourcePath.includes(path.normalize("src/popup/exports"))) {
+    const code = getHookExtensionToPopup(platform);
     return code;
   }
   return;
 }
 
-function injectPanel(platform: ExtensionPlatform, source: string) {
+function injectPopup(platform: ExtensionPlatform, source: string) {
   const resourcePath = path.normalize(this.resourcePath);
   if (
-    resourcePath.includes(path.normalize("src/panel/index.tsx")) &&
+    resourcePath.includes(path.normalize("src/popup/index.tsx")) &&
     platform == "chrome"
   ) {
-    return `${source} ${getImplExtensionToPanel()}`;
+    return `${source} ${getImplExtensionToPopup()}`;
   }
   if (resourcePath.includes(path.normalize("src/background/exports"))) {
     return getHookContentToBackExports(platform);
@@ -162,8 +162,8 @@ function injectContent(platform: ExtensionPlatform, source: string) {
   if (resourcePath.includes(path.normalize("src/background/exports"))) {
     return getHookContentToBackExports(platform);
   }
-  if (resourcePath.includes(path.normalize("src/panel/exports"))) {
-    return getHookExtensionToPanel(platform);
+  if (resourcePath.includes(path.normalize("src/popup/exports"))) {
+    return getHookExtensionToPopup(platform);
   }
   if (resourcePath.includes(path.normalize("src/document/exports"))) {
     return getHookContentToDocExports(platform);

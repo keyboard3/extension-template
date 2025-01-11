@@ -1,8 +1,11 @@
+import { APP_NAME } from "../../common/const";
 import { deserialize, getExportMethodNames, serialize } from "./util";
 
 export function getHookDocToContentExports(platform: ExtensionPlatform) {
   const map = getHooKDocToContentMethodMap();
-  const content = Object.entries(map).map(([key,value]) => `export const ${key}=${value};`).join("\n");
+  const content = Object.entries(map).map(([key, value]) =>
+    `export const ${key}=${value};`
+  ).join("\n");
   return `${content}\n${getCommonHookDocToContentFun(platform)}`;
 }
 
@@ -18,7 +21,7 @@ export function getHooKDocToContentMethodMap() {
 export function getCommonHookDocToContentFun(platform: ExtensionPlatform) {
   return `async function commonHookFun(methodName:any,...args:any[]) {
        const mid = Math.random().toString(36).slice(2);
-       document.dispatchEvent(new CustomEvent("external-subtitle-doc", {detail: ${
+       document.dispatchEvent(new CustomEvent("${APP_NAME}-doc", {detail: ${
     serialize(platform, `{method: methodName,id:mid, args}`)
   }}));
        const response = await new Promise((resolve) => {
@@ -27,11 +30,11 @@ export function getCommonHookDocToContentFun(platform: ExtensionPlatform) {
     deserialize(platform, "event.detail")
   } || {};
                 if (method === methodName && id == mid) {
-                    document.removeEventListener("external-subtitle-doc-response", listener);
+                    document.removeEventListener("${APP_NAME}-doc-response", listener);
                     resolve(response);
                 }
             };
-            document.addEventListener("external-subtitle-doc-response", listener);
+            document.addEventListener("${APP_NAME}-doc-response", listener);
         });
        return response;
       }

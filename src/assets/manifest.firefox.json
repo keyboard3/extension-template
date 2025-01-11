@@ -4,7 +4,7 @@
   "description": "扩展模版",
   "version": "1.0.0",
   "action": {
-    "default_popup": "panel.html",
+    "default_popup": "popup.html",
     "default_icon": "images/icon-32.png"
   },
   "icons": {
@@ -38,7 +38,7 @@
     {
       "resources": [
         "scripts/inject.js",
-        "css/panel.css",
+        "css/popup.css",
         "css/content.css"
       ],
       "matches": [

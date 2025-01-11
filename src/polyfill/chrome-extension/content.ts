@@ -2,6 +2,7 @@ import * as contentExports from "../../content/exports";
 import "../../common/init";
 import "../../content";
 import { delay } from "../../utils/time";
+import { APP_NAME } from "../../common/const";
 
 console.log("content 为实现部分准备的前置", !!contentExports);
 
@@ -31,12 +32,12 @@ const docListener = async (event: CustomEvent) => {
   if (result == undefined) return;
   const data = { id, method, response: result };
   document.dispatchEvent(
-    new CustomEvent("external-subtitle-doc-response", {
+    new CustomEvent(`${APP_NAME}-doc-response`, {
       detail: process.env.PLATFORM == "firefox" ? JSON.stringify(data) : data,
     }),
   );
 };
-document.addEventListener("external-subtitle-doc", docListener);
+document.addEventListener(`${APP_NAME}-doc`, docListener);
 
 browser.runtime.onMessage.addListener(
   function (request, sender, sendResponse) {
