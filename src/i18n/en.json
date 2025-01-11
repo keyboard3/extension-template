@@ -1,0 +1,10 @@
+{
+    "setting": "Settings",
+    "lngSetting": "Language Settings",
+    "enable": "Enable",
+    "lng": {
+        "en": "English",
+        "zh": "Chinese",
+        "zh-TW": "Traditional Chinese"
+    }
+}

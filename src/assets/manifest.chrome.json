@@ -1,0 +1,38 @@
+{
+  "manifest_version": 3,
+  "name": "Template",
+  "description": "扩展模版",
+  "version": "1.0.0",
+  "permissions": [
+    "storage",
+    "tabs",
+    "sidePanel"
+  ],
+  "content_scripts": [
+    {
+      "js": [
+        "scripts/content.js"
+      ],
+      "matches": [
+        "*://*/*"
+      ],
+      "run_at": "document_start",
+      "all_frames": true
+    }
+  ],
+  "background": {
+    "service_worker": "scripts/background.js"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "scripts/inject.js",
+        "css/panel.css",
+        "css/content.css"
+      ],
+      "matches": [
+        "*://*/*"
+      ]
+    }
+  ]
+}
