@@ -18,14 +18,14 @@ export default function Popup({ className }: { className?: string }) {
   const [t] = useTranslation();
   return (
     <div className="popup-container">
-      <Title level={2}>框架基础调用演示</Title>
+      <Title level={2}>{t('popup.title')}</Title>
       <Button
         onClick={async () => {
           const msg = await sayHelloByBackground();
           setMsg("sayHelloByBackground:" + msg);
         }}
       >
-        让 background.js 说 hello world
+        {t('popup.backgroundHello')}
       </Button>
       <br />
       <br />
@@ -35,7 +35,7 @@ export default function Popup({ className }: { className?: string }) {
           setMsg("sayHelloByBackgroundInvokeContent:" + msg);
         }}
       >
-        让 background.js 调用 content.js 说 hello world
+        {t('popup.backgroundInvokeContent')}
       </Button>
       <br />
       <br />
@@ -45,7 +45,7 @@ export default function Popup({ className }: { className?: string }) {
           setMsg("sayHelloFromContent:" + msg);
         }}
       >
-        让 content.js 说 hello world
+        {t('popup.contentHello')}
       </Button>
       <br />
       <br />
@@ -55,7 +55,7 @@ export default function Popup({ className }: { className?: string }) {
           setMsg("sayHelloByInvokeDocument:" + msg);
         }}
       >
-        让 content.js 调用 注入到 document 的 js 说 hello world
+        {t('popup.contentInvokeDocument')}
       </Button>
       <br />
       <br />
@@ -64,7 +64,7 @@ export default function Popup({ className }: { className?: string }) {
           openTab("dash.html");
         }}
       >
-        打开{t("setting")}页
+        go {t("setting")}
       </Button>
       <Title level={5}>{msg}</Title>
     </div>

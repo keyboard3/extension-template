@@ -1,10 +1,17 @@
 {
-    "setting": "設置",
-    "lngSetting": "語言設置",
+    "setting": "設定",
+    "lngSetting": "語言設定",
     "enable": "啟用",
     "lng": {
         "en": "英文",
         "zh": "中文",
         "zh-TW": "繁體中文"
+    },
+    "popup": {
+        "title": "框架基礎調用演示",
+        "backgroundHello": "讓 background.js 說 hello world",
+        "backgroundInvokeContent": "讓 background.js 調用 content.js 說 hello world",
+        "contentHello": "讓 content.js 說 hello world",
+        "contentInvokeDocument": "讓 content.js 調用 注入到 document 的 js 說 hello world"
     }
 }

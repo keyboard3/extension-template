@@ -3,8 +3,15 @@
     "lngSetting": "语言设置",
     "enable": "启用",
     "lng": {
-        "en": "英文",
+        "en": "英语",
         "zh": "中文",
         "zh-TW": "繁体中文"
+    },
+    "popup": {
+        "title": "框架基础调用演示",
+        "backgroundHello": "让 background.js 说 hello world",
+        "backgroundInvokeContent": "让 background.js 调用 content.js 说 hello world",
+        "contentHello": "让 content.js 说 hello world",
+        "contentInvokeDocument": "让 content.js 调用 注入到 document 的 js 说 hello world"
     }
 }
