@@ -1,47 +1,62 @@
-import React from "react";
+import React, { useState } from "react";
 import { createRoot } from "react-dom/client";
 import "../i18n";
 import "./index.css";
 import "../common/init";
-import { backgroundExample, openTab } from "../background/exports";
-import { getDocTitle } from "../content/exports";
+import {
+  openTab,
+  sayHelloByBackground,
+  sayHelloByBackgroundInvokeContent,
+} from "../background/exports";
+import { sayHelloFromContent } from "../content/exports";
 import { useTranslation } from "react-i18next";
+import { Button, Divider } from "antd/lib";
+import Title from "antd/es/typography/Title";
 
 export default function Popup({ className }: { className?: string }) {
-  const [text, setText] = React.useState<string | null>(null);
-  const [title, setTitle] = React.useState<string | null>(null);
+  const [msg, setMsg] = useState<string>("");
   const [t] = useTranslation();
   return (
     <div className="popup-container">
-      <h1>Popup</h1>
-      <button
-        onClick={() => {
-          backgroundExample().then((text) => {
-            setText(text);
-          });
+      <Title level={2}>框架基础调用演示</Title>
+      <Button
+        onClick={async () => {
+          const msg = await sayHelloByBackground();
+          setMsg("sayHelloByBackground:" + msg);
         }}
       >
-        Get Background Text
-      </button>
-      <p>{text}</p>
-      <button
-        onClick={() => {
-          getDocTitle().then((title) => {
-            setTitle(title);
-          });
+        让 background.js 说 hello world
+      </Button>
+      <br />
+      <br />
+      <Button
+        onClick={async () => {
+          const msg = await sayHelloByBackgroundInvokeContent();
+          setMsg("sayHelloByBackgroundInvokeContent:" + msg);
         }}
       >
-        Get Doc Text
-      </button>
-      <p>{title}</p>
-
-      <button
+        让 background.js 调用 content.js 说 hello world
+      </Button>
+      <br />
+      <br />
+      <Button
+        onClick={async () => {
+          const msg = await sayHelloFromContent();
+          setMsg("sayHelloFromContent:" + msg);
+        }}
+      >
+        让 content.js 说 hello world
+      </Button>
+      <br />
+      <br />
+      <Button
         onClick={() => {
           openTab("dash.html");
         }}
       >
-        {t("setting")}
-      </button>
+        打开{t("setting")}页
+      </Button>
+      <Title level={5}>{msg}</Title>
     </div>
   );
 }

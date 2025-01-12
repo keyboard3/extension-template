@@ -1,4 +1,4 @@
-import {} from "../content/exports";
+import { sayHelloFromContent } from "../content/exports";
 
 export async function fetchInBackground(
   input: string | URL | globalThis.Request,
@@ -29,6 +29,12 @@ export async function openTab(url: string) {
   browser.tabs.create({ url });
 }
 
-export async function backgroundExample() {
-  return "background";
+export async function sayHelloByBackground() {
+  console.log("invoke background sayHello()");
+  return "hello world";
+}
+
+export async function sayHelloByBackgroundInvokeContent() {
+  console.log("invoke sayHelloByBackgroundInvokeContent");
+  return await sayHelloFromContent();
 }

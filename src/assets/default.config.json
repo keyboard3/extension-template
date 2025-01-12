@@ -1,1 +1,7 @@
-[]
+[
+    {
+        "id": "default",
+        "enable": true,
+        "match": "*"
+    }
+]

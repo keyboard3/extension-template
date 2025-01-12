@@ -76,3 +76,8 @@ export async function getDocTitle() {
 export async function getUrl() {
   return window.location.href;
 }
+
+export async function sayHelloFromContent() {
+  console.log("invoke content sayHello()");
+  return "hello world";
+}
