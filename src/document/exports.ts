@@ -23,3 +23,8 @@ export async function fetchInDoc(
     return JSON.stringify(response);
   });
 }
+
+export async function sayHelloByDocument() {
+  console.log("invoke sayHelloByDocument()");
+  return "hello world";
+}

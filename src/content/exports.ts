@@ -4,6 +4,7 @@ import defaultConfigList from "../assets/default.config.json";
 import { getLocalConfigs, matchConfig, mergeConfig } from "../common/config";
 import { APP_NAME, StorageKey } from "../common/const";
 import { geSyncValue, setSyncValue } from "../utils/storage";
+import { sayHelloByDocument } from "../document/exports";
 const defaultConfigs = defaultConfigList as Config[];
 
 export async function getUserConfigs(): Promise<Partial<Config>[]> {
@@ -80,4 +81,9 @@ export async function getUrl() {
 export async function sayHelloFromContent() {
   console.log("invoke content sayHello()");
   return "hello world";
+}
+
+export async function sayHelloByInvokeDocument() {
+  console.log("invoke sayHelloByInvokeDocument()");
+  return sayHelloByDocument();
 }

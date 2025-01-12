@@ -8,7 +8,7 @@ import {
   sayHelloByBackground,
   sayHelloByBackgroundInvokeContent,
 } from "../background/exports";
-import { sayHelloFromContent } from "../content/exports";
+import { sayHelloByInvokeDocument, sayHelloFromContent } from "../content/exports";
 import { useTranslation } from "react-i18next";
 import { Button, Divider } from "antd/lib";
 import Title from "antd/es/typography/Title";
@@ -46,6 +46,16 @@ export default function Popup({ className }: { className?: string }) {
         }}
       >
         让 content.js 说 hello world
+      </Button>
+      <br />
+      <br />
+      <Button
+        onClick={async () => {
+          const msg = await sayHelloByInvokeDocument();
+          setMsg("sayHelloByInvokeDocument:" + msg);
+        }}
+      >
+        让 content.js 调用 注入到 document 的 js 说 hello world
       </Button>
       <br />
       <br />
