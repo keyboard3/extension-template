@@ -1,24 +1,40 @@
 const rspack = require("@rspack/core");
 import { RspackDevServer } from "@rspack/dev-server";
-import { getExtensionConfigs } from "./package/webpack.config";
+import { getDashConfig, getExtensionConfigs } from "./package/webpack.config";
 import {
   getPreCompileUSConfig,
   getUserScriptConfigs,
 } from "./package/webpack.us.config";
 import "dotenv/config";
 
-const isBuild = process.argv.includes("--build");
+const args = process.argv.slice(2); // 获取命令行参数（去掉前两个默认参数）
+const isBuild = args.includes("--build");
+const isChromeBuild = args.includes("--type") &&
+  args[args.indexOf("--type") + 1] === "chrome";
 
-const chromeExtensionConfigs = getExtensionConfigs("chrome");
-// const firefoxExtensionConfigs = getExtensionConfigs("firefox");
+const buildPlatform = getBuildPlatform();
+const isChrome = buildPlatform === "chrome";
+const isFirefox = buildPlatform === "firefox";
+const isUserScript = buildPlatform === "userscript";
+const isAll = buildPlatform === "all" || !buildPlatform;
+
+const buildConfigs = [];
+
+if (isAll || isChrome) {
+  const chromeExtensionConfigs = getExtensionConfigs("chrome");
+  buildConfigs.push(...chromeExtensionConfigs);
+}
+
+if (isAll || isFirefox) {
+  const firefoxExtensionConfigs = getExtensionConfigs("firefox");
+  buildConfigs.push(...firefoxExtensionConfigs);
+}
+
 // const usPreConfig = getPreCompileUSConfig();
 // const userScriptConfigs = getUserScriptConfigs();
 
-const compiler = rspack([
-  ...chromeExtensionConfigs,
-  // ...firefoxExtensionConfigs,
-  // ...usPreConfig,
-]);
+
+const compiler = rspack(buildConfigs);
 
 // const usCompiler = rspack(userScriptConfigs);
 if (isBuild) {
@@ -36,9 +52,7 @@ if (isBuild) {
     // });
   });
 } else {
-  const dashConfig = chromeExtensionConfigs.find((config: any) =>
-    !!config.entry["dash"]
-  );
+  const dashConfig = getDashConfig();
   if (dashConfig.devServer) {
     const devServerCompiler = rspack(dashConfig);
     const server = new RspackDevServer(
@@ -71,4 +85,10 @@ if (isBuild) {
       // });
     },
   );
+}
+
+function getBuildPlatform() {
+  const index = args.indexOf("--type");
+  if (index === -1 || args.length <= index + 1) return;
+  return args[index + 1];
 }

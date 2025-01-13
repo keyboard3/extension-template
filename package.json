@@ -5,7 +5,11 @@
   "private": true,
   "scripts": {
     "build": "rm -rf dist && PROD=1 ts-node webpack.ts --build",
+    "build:chrome": "rm -rf dist && PROD=1 ts-node webpack.ts --build --platform chrome",
+    "build:firefox": "rm -rf dist && PROD=1 ts-node webpack.ts --build --platform firefox",
     "dev": "cross-env PROD=0 ts-node webpack.ts",
+    "dev:chrome": "cross-env PROD=0 ts-node webpack.ts --platform chrome",
+    "dev:firefox": "cross-env PROD=0 ts-node webpack.ts --platform firefox",
     "test": "jest"
   },
   "keywords": [],

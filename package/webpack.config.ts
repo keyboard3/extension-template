@@ -33,6 +33,12 @@ export function getExtensionConfigs(platform: "chrome" | "firefox") {
   ];
 }
 
+export function getDashConfig(platform: "chrome" | "firefox" = "chrome") {
+  return extensionWebpack(platform, {
+    dash: "./src/dash/index.tsx",
+  });
+}
+
 function extensionWebpack(
   platform: "chrome" | "firefox",
   entry: Partial<
